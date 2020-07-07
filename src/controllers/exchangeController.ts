@@ -3,6 +3,9 @@ import { CurrencyService } from '../services/currencyService';
 import { convertSymbolToId, getCryptos, getCurrencies, roundNumber } from '../utils/util';
 import { Currency } from '../entity/Currency';
 import { getConnection, getRepository } from 'typeorm';
+import cryptoData from '../dummy/crypto';
+import currencyData from '../dummy/currency';
+
 const cryptoService   = new CryptoService();
 const currencyService = new CurrencyService;
 
@@ -13,6 +16,7 @@ export class ExchangeController {
         const currencies   = getCurrencies();
         const cryptoData   = await cryptoService.simplePrice(Object.values(cryptos));  // { ethereum: { usd: 228.21 }, bitcoin: { usd: 9186.04 } }
         const currencyData = await currencyService.getCurrency(currencies);            // { "USDEUR": 0.88827, "USDAFN": 77.197331 }
+        
         
         Object.keys(cryptoData).forEach((crypto) => {
             Object.keys(currencyData).forEach((currency) =>{
@@ -33,7 +37,7 @@ export class ExchangeController {
     
     validateRequest(req, res, next){
         let { crypto, currency } = req.query;
-        if (!crypto || !currency)  return res.status(404).json({error: 'BAD REQUEST'});
+        if (!crypto || !currency)  return res.status(409).json({error: 'BAD REQUEST'});
         const availableCryptos  = Object.keys(getCryptos());
         const availableCurrency = getCurrencies();
         if (!availableCryptos.includes(crypto) || !availableCurrency.includes(currency)){

@@ -1,0 +1,7 @@
+export default {
+    USDUSD: 1,
+    USDEUR: 0.885395,
+    USDAFN: 77.096617,
+    USDAMD: 485.120168,
+    USDBGN: 1.732561
+}
