@@ -3,8 +3,8 @@ import { CurrencyService } from '../services/currencyService';
 import { convertSymbolToId, getCryptos, getCurrencies, roundNumber } from '../utils/util';
 import { Currency } from '../entity/Currency';
 import { getConnection, getRepository } from 'typeorm';
-import cryptoData from '../dummy/crypto';
-import currencyData from '../dummy/currency';
+// import cryptoData from '../dummy/crypto';
+// import currencyData from '../dummy/currency';
 
 const cryptoService   = new CryptoService();
 const currencyService = new CurrencyService;

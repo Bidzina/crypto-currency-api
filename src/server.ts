@@ -8,7 +8,7 @@ import { ExchangeController } from "./controllers/exchangeController";
 const exchangeController = new ExchangeController;
 
 createConnection().then(async(connection) => {
-    await exchangeController.initialSync();
+    // await exchangeController.initialSync();
     // CRON TIME in minutes
     cron.schedule(`*/${process.env.CRON_TIME} * * * *`, () => {
         exchangeController.initialSync();
@@ -16,8 +16,13 @@ createConnection().then(async(connection) => {
     });
 
     app.get('/', exchangeController.validateRequest, async (req, res) => {
-        let data = await exchangeController.getCurrency(req, res);
-        res.json(data);
+        try{
+            let data = await exchangeController.getCurrency(req, res);
+            res.json(data);
+        } catch(e){
+            console.log(e);
+            res.end();
+        }
     });
 
     app.listen(process.env.PORT, function () {
