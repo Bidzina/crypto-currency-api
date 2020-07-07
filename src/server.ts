@@ -8,7 +8,7 @@ import { ExchangeController } from "./controllers/exchangeController";
 const exchangeController = new ExchangeController;
 
 createConnection().then(async(connection) => {
-    // await exchangeController.initialSync();
+    await exchangeController.initialSync();
     // CRON TIME in minutes
     cron.schedule(`*/${process.env.CRON_TIME} * * * *`, () => {
         exchangeController.initialSync();
