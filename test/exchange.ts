@@ -1,3 +1,4 @@
+import server from '../src/server';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const dotenv = require('dotenv');
@@ -6,12 +7,18 @@ dotenv.config();
 
 chai.use(chaiHttp);
 
+before(done => {
+    server.on("ready", () => {
+        done();
+    })
+});
+
 describe('Exchange', () => {
     describe('/GET /', () => {
         it('it should return currency rate for crypto', (done) => {
             const crypto   = 'btc';
             const currency = 'usd';
-            chai.request(`http://localhost:${process.env.PORT}`)
+            chai.request(server)
                 .get('/')
                 .query({ crypto, currency})
                 .end((err, res) => {

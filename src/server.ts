@@ -14,7 +14,6 @@ createConnection().then(async(connection) => {
         exchangeController.initialSync();
         console.log(`running a task in every ${process.env.CRON_TIME} minute`, new Date(Date.now()));
     });
-
     app.get('/', exchangeController.validateRequest, async (req, res) => {
         try{
             let data = await exchangeController.getCurrency(req, res);
@@ -24,8 +23,14 @@ createConnection().then(async(connection) => {
             res.end();
         }
     });
+    app.emit('ready');
+    
+    if(!module.parent){ // for testing
+        app.listen(process.env.PORT, function () {
+            console.log(`App is listening on port ${process.env.PORT}`);
+        });
+    }
 
-    app.listen(process.env.PORT, function () {
-        console.log(`App is listening on port ${process.env.PORT}`);
-    });
 });
+
+export default app;
